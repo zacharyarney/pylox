@@ -1,5 +1,5 @@
 import sys
-from lexer.scanner import Scanner
+from lexer import Scanner
 
 
 class Lox:

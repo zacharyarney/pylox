@@ -1,6 +1,6 @@
-from errors.error import error
-from lexer.token import Token
-from lexer.token_type import TokenType
+from errors import error
+from lexer import Token
+from lexer import TokenType
 
 
 class Scanner:
