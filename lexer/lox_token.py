@@ -1,5 +1,8 @@
+from token_type import TokenType
+
+
 class Token:
-    def __init__(self, lox_type, lexeme, literal, line):
+    def __init__(self, lox_type: TokenType, lexeme: str, literal: str, line: int):
         self.type = lox_type
         self.lexeme = lexeme
         self.literal = literal

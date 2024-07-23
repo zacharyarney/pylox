@@ -4,36 +4,38 @@ from lexer import TokenType
 
 
 class Scanner:
-    def __init__(self, source):
+    def __init__(self, source: str) -> None:
         self.source = source
         self.start = 0
         self.current = 0
         self.line = 1
         self.column = 1
-        self.tokens = []
+        self.tokens: list[Token] = []
         self.had_error = False
 
-    def add_non_literal_token(self, token_type: TokenType):
+    def add_non_literal_token(self, token_type: TokenType) -> None:
         self.add_token(token_type, "")
 
-    def add_slash_token(self):
+    def add_slash_token(self) -> None:
         if self.match("/"):
             self.ignore_comment()
         else:
             self.add_non_literal_token(TokenType.SLASH)
 
-    def add_token(self, token_type: TokenType, literal: str):
-        self.tokens.append(Token(token_type, self.get_current_lexeme(), literal, self.line))
+    def add_token(self, token_type: TokenType, literal: str) -> None:
+        self.tokens.append(
+            Token(token_type, self.get_current_lexeme(), literal, self.line)
+        )
 
-    def advance(self):
+    def advance(self) -> str:
         self.current += 1
         self.column += 1
         return self.source[self.current - 1]
 
-    def get_current_lexeme(self):
-        return self.source[self.start: self.current]
+    def get_current_lexeme(self) -> str:
+        return self.source[self.start : self.current]
 
-    def handle_identifier(self):
+    def handle_identifier(self) -> None:
         keywords = [
             TokenType.AND,
             TokenType.CLASS,
@@ -60,7 +62,7 @@ class Scanner:
         else:
             self.add_token(TokenType.IDENTIFIER, text)
 
-    def handle_number(self):
+    def handle_number(self) -> None:
         while self.peek().isdigit():
             self.advance()
         if self.peek() == "." and self.peek().isdigit():
@@ -69,7 +71,7 @@ class Scanner:
                 self.advance()
         self.add_token(TokenType.NUMBER, self.get_current_lexeme())
 
-    def handle_string(self):
+    def handle_string(self) -> None:
         while self.peek() != '"' and not self.is_at_end():
             if self.peek() == "\n":
                 self.line += 1
@@ -79,17 +81,17 @@ class Scanner:
             self.had_error = True
             return
         self.advance()
-        literal = self.source[self.start + 1: self.current - 1]
+        literal = self.source[self.start + 1 : self.current - 1]
         self.add_token(TokenType.STRING, literal)
 
-    def ignore_comment(self):
+    def ignore_comment(self) -> None:
         while self.peek() != "\n" and not self.is_at_end():
             self.advance()
 
-    def is_at_end(self):
+    def is_at_end(self) -> bool:
         return self.current >= len(self.source)
 
-    def match(self, expected: str):
+    def match(self, expected: str) -> bool:
         if self.is_at_end():
             return False
         if self.peek() != expected:
@@ -97,12 +99,12 @@ class Scanner:
         self.advance()  # advances a second time for two-char token
         return True
 
-    def peek(self):
+    def peek(self) -> str:
         if self.is_at_end():
             return "\0"
         return self.source[self.current]
 
-    def scan_token(self):
+    def scan_token(self) -> None:
         c = self.advance()
         if c == "(":
             self.add_non_literal_token(TokenType.LEFT_PAREN)
@@ -156,7 +158,7 @@ class Scanner:
             error(self.line, f"Unexpected character '{c}'.")
             self.had_error = True
 
-    def scan_tokens(self):
+    def scan_tokens(self) -> list[Token]:
         while not self.is_at_end():
             self.start = self.current
             self.scan_token()

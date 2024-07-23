@@ -1,3 +1,3 @@
-from .scanner import Scanner
-from .token import Token
-from .token_type import TokenType
+from scanner import Scanner
+from lox_token import Token
+from lox_token_type import TokenType

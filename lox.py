@@ -1,4 +1,5 @@
 import sys
+
 from lexer import Scanner
 
 
@@ -37,7 +38,7 @@ class Lox:
 if __name__ == "__main__":
     lox = Lox()
     if len(sys.argv) > 2:
-        print("Usage: lox [script]")
+        sys.stderr.write("Usage: lox [script]")
         sys.exit(64)
     elif len(sys.argv) == 2:
         lox.run_file(sys.argv[1])
