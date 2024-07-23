@@ -6,7 +6,7 @@
 
 from abc import ABC, abstractmethod
 
-from expr import *
+from parser.expr import *
 
 
 class Visitor(ABC):

@@ -1,6 +1,5 @@
 from io import TextIOWrapper
 import sys
-from typing import Text
 
 
 def generate_ast():
@@ -52,7 +51,7 @@ def _define_ast(output_dir: str, base_name: str, types: list[str]):
             file.write("from abc import ABC\n")
             file.write("from dataclasses import dataclass\n")
             file.write("\n")
-            file.write("from lexer import Token\n")
+            file.write("from lexer.lox_token import Token\n")
             file.write("\n\n")
             # base class
             file.write(f"class {base_name}(ABC):\n")
@@ -103,7 +102,7 @@ def _define_visitor(output_dir: str):
             # imports
             file.write("from abc import ABC, abstractmethod\n")
             file.write("\n")
-            file.write("from expr import *\n")
+            file.write("from parser.expr import *\n")
             file.write("\n\n")
             file.write("class Visitor(ABC):\n")
     except FileNotFoundError:

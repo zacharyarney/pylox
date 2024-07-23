@@ -7,7 +7,7 @@
 from abc import ABC
 from dataclasses import dataclass
 
-from lexer import Token
+from lexer.lox_token import Token
 
 
 class Expr(ABC):
@@ -45,3 +45,5 @@ class StringLiteral(Expr):
 class Unary(Expr):
     operator: Token
     right: Expr
+
+
